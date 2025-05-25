@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Performance Predictor</title>
+</head>
+<body>
+    <h1>Student Performance Predictor</h1>
+
+    <form action="/predict" method="post">
+        <label for="attendance">Attendance (%):</label>
+        <input type="number" step="0.01" name="attendance" required><br><br>
+
+        <label for="study_hours">Study Hours per Day:</label>
+        <input type="number" step="0.01" name="study_hours" required><br><br>
+
+        <label for="previous_marks">Previous Marks (%):</label>
+        <input type="number" step="0.01" name="previous_marks" required><br><br>
+
+        <label for="assignment_score">Assignment Score:</label>
+        <input type="number" step="0.01" name="assignment_score" required><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction_text %}
+        <h2>{{ prediction_text }}</h2>
+    {% endif %}
+</body>
+</html>

@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+import joblib
 
 # Load dataset
 df = pd.read_csv("student_performance_dataset.csv")
@@ -25,8 +26,6 @@ y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Model Accuracy: {accuracy * 100:.2f}%")
 
-# Sample prediction as DataFrame with proper column names
-sample = pd.DataFrame([[70, 2, 60, 6]], columns=X.columns)
-
-result = model.predict(sample)[0]
-print("Prediction for sample student:", "Pass" if result == 1 else "Fail")
+# Save the trained model to disk
+joblib.dump(model, 'student_performance_model.joblib')
+print("Model saved successfully.")
