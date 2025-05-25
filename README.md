@@ -52,21 +52,27 @@ An end-to-end MERN + Machine Learning project where teachers can manage student 
 ## 📁 Project Structure
 <pre>
 📦root
-├── 📁ml-service # Python ML code
-│ ├── predict.py
-│ └── student_performance_model.joblib
-├── 📁server # Node.js + Express backend
-│ ├── 📁src
-│ │ ├── 📁controllers
-│ │ ├── 📁models
-│ │ ├── 📁routes
-│ │ └── 📁middlewares
-│ └── server.js
-├── 📁client # React Frontend (coming soon!)
-│ └── src/
+├── 📁server   
+|   ├── 📁microservice                # Python ML code
+│   ├── generate_training_data_1000.py
+│   ├── predict.py
+│   ├── student_performance_dataset.csv
+│   ├── student_performance_model.joblib
+│   └── train_model.py                # Node.js + Express backend
+│   ├── 📁src
+│   │   ├── 📁controllers
+│   │   ├── 📁middlewares
+│   │   ├── 📁models
+│   │   └── 📁routes
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── package-lock.json
+│   ├── package.json
+│   └── server.js
+├── 📁client                      # React Frontend (coming soon!)
+│   └── src/
 ├── README.md
 </pre>
-
 
 ---
 
