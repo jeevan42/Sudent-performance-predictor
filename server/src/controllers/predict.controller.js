@@ -13,7 +13,7 @@ export const predictStudentResult = async (req, res) => {
         }
 
         const py = spawn("python", [
-            "../ml-service/predict.py",
+            "./microservice/predict.py",
             student.attendance,
             student.studyHours,
             student.previousMarks,
