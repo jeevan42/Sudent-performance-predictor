@@ -2,15 +2,15 @@ import { Student } from '../models/Student.js';
 
 export const addStudent = async (req, res) => {
     try {
-        const { name, attendance, study_hours, previous_marks, assignment_score } = req.body;
+        const { name, attendance, studyHours, previousMarks, assignmentScore } = req.body;
 
         const student = new Student({
             teacher: req.teacher.id, // set via protect middleware
             name,
             attendance,
-            study_hours,
-            previous_marks,
-            assignment_score,
+            studyHours,
+            previousMarks,
+            assignmentScore,
         });
 
         await student.save();

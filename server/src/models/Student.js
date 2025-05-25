@@ -1,10 +1,6 @@
 import mongoose from "mongoose";
 
 const predictionSchema = new mongoose.Schema({
-    attendance: Number,
-    studyHours: Number,
-    previousMarks: Number,
-    assignmentScore: Number,
     predictedResult: String, // 'Pass' or 'Fail'
     createdAt: {
         type: Date,
@@ -22,6 +18,10 @@ const studentSchema = new mongoose.Schema({
         ref: 'Teacher',
         required: true
     },
+    attendance: Number,
+    studyHours: Number,
+    previousMarks: Number,
+    assignmentScore: Number,
     predictions: [predictionSchema]
 });
 
