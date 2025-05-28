@@ -4,6 +4,7 @@ import Register from "./pages/Auth/RegisterPage.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import StudentDetails from "./pages/StudentDetails.jsx";
 import EditStudentForm from "./pages/EditStudentForm.jsx";
+import AddStudentForm from "./pages/AddStudentForm.jsx";
 
 export default function AppRoutes() {
   const token = localStorage.getItem('token');
@@ -25,6 +26,7 @@ export default function AppRoutes() {
             {/* Protected Routes */}
             <Route path="/" element={<Dashboard />} />
             <Route path="/students/:id" element={<StudentDetails />} />
+            <Route path="/students/add" element={<AddStudentForm />} />
             <Route path="/students/edit/:id" element={<EditStudentForm />} />
             {/* Add a fallback for any unmatched routes */}
             <Route path="*" element={<Navigate to="/" />} />

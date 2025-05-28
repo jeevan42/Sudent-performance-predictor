@@ -15,9 +15,13 @@ export const addStudent = async (req, res) => {
         });
 
         await student.save();
-        res.status(201).json(student);
+        res.status(201).json({
+            statusCode: 201,
+            message: "Student added successfully",
+            data: student
+        });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ statusCode: 500, message: error.message });
     }
 };
 

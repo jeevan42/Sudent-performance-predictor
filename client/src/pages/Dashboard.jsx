@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from './../services/api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { notifyError, notifySuccess } from './../services/toastNotifications';
 import {
     Card,
@@ -79,6 +79,7 @@ function Dashboard() {
 
             if (response?.data?.statusCode === 200) {
                 notifySuccess(`${message} → ${data?.studentName}: ${data?.prediction}`);
+                window.location.reload()
             } else {
                 notifyError(message || 'An error occurred while predicting the result');
             }
@@ -94,7 +95,13 @@ function Dashboard() {
             <Typography variant="h3" gutterBottom align="center" mt={4}>
                 Students List
             </Typography>
-
+            <div className="flex w-100 mt-2 justify-end">
+                <Button size="small" variant="contained" color="primary"
+                    onClick={() => navigate(`/students/add`)}
+                >
+                    Add Student
+                </Button>
+            </div>
             {loading ? (
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
                     <CircularProgress />
@@ -201,13 +208,30 @@ function Dashboard() {
                                         <Button size="small" onClick={() => navigate(`/students/${_id}`)}>
                                             View Details
                                         </Button>
-                                        <Button size="small" variant="contained" color="primary"
+                                        {
+                                            loadingPredictionIds.includes(_id)
+                                                ?
+                                                <Button size="small" variant="contained" color="primary"
+                                                >
+                                                    {'Predicting...'}
+
+                                                </Button>
+                                                :
+                                                <Button size="small" variant="contained" color="primary"
+                                                    onClick={() => handlePredictResult(_id)}
+                                                    disabled={loadingPredictionIds.length}
+                                                >
+                                                    {'Predict Result'}
+
+                                                </Button>
+                                        }
+                                        {/* <Button size="small" variant="contained" color="primary"
                                             onClick={() => handlePredictResult(_id)}
-                                            disabled={loadingPredictionIds.includes(_id)}
+                                            disabled={loadingPredictionIds.length}
                                         >
                                             {loadingPredictionIds.includes(_id) ? 'Predicting...' : 'Predict Result'}
 
-                                        </Button>
+                                        </Button> */}
                                     </CardActions>
                                 </Card>
                             </Grid>
