@@ -38,7 +38,7 @@
 
 import React, { useEffect, useState } from 'react';
 import API from '../services/api';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
     Typography, Card, CardContent, Table, TableBody,
     TableCell, TableContainer, TableHead, TableRow,
@@ -50,6 +50,7 @@ import { notifyError, notifySuccess } from '../services/toastNotifications';
 
 function StudentDetails() {
     const { id } = useParams();
+    const navigate = useNavigate();
     const [student, setStudent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [loadingPrediction, setLoadingPrediction] = useState(false);
@@ -114,13 +115,9 @@ function StudentDetails() {
                 <CardActions sx={{ justifyContent: 'end', px: 2 }}>
 
                     <Button size="small" variant="contained" color="primary"
-                    // onClick={() => handlePredictResult(_id)}
-                    // disabled={loadingPredictionIds.includes(_id)}
+                        onClick={() => navigate(`/students/edit/${id}`)}
                     >
-                        {/* {loadingPredictionIds.includes(_id) ? 'Predicting...' :  */}
                         Edit Details
-                        {/* // } */}
-
                     </Button>
                     <Button size="small" variant="contained" color="primary"
                         onClick={() => handlePredictResult()}
