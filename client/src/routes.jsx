@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Auth/LoginPage.jsx";
 import Register from "./pages/Auth/RegisterPage.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import StudentDetails from "./pages/StudentDetails.jsx";
 
 export default function AppRoutes() {
   const token = localStorage.getItem('token');
@@ -22,7 +23,7 @@ export default function AppRoutes() {
           <>
             {/* Protected Routes */}
             <Route path="/" element={<Dashboard />} />
-            <Route path="/students/:studentId" element={<Dashboard />} />
+            <Route path="/students/:id" element={<StudentDetails />} />
             {/* Add a fallback for any unmatched routes */}
             <Route path="*" element={<Navigate to="/" />} />
           </>

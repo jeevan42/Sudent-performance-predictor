@@ -79,11 +79,15 @@ export const getStudentDetails = async (req, res) => {
             teacher: req.teacher.id,
         });
 
-        if (!student) return res.status(404).json({ message: "Student not found" });
+        if (!student) return res.status(404).json({ statusCode: 404, message: "Student not found" });
 
-        res.json({ student });
+        res.status(200).json({
+            statusCode: 200,
+            message: 'Student details fetched',
+            data: student
+        });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Something went wrong" });
+        res.status(500).json({ statusCode: 500, message: "Something went wrong" });
     }
 };
