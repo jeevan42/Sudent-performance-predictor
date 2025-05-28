@@ -8,7 +8,6 @@ import { notifyError, notifySuccess } from '../../services/toastNotifications';
 
 const Register = () => {
     const [isSubmitting, setIsSubmitting] = useState(false); // State to track submission
-
     const formik = useFormik({
         initialValues: {
             name: '',
