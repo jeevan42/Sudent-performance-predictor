@@ -34,7 +34,7 @@ export const updateStudentData = async (req, res) => {
 
         if (!student) return res.status(404).json({ statusCode: 404, message: "Student not found or unauthorized" });
 
-        res.status(200).json({ statusCode: 200, message: "Student updated", data: student });
+        res.status(200).json({ statusCode: 200, message: "Student updated successfully", data: student });
     } catch (error) {
         console.error(error);
         res.status(500).json({ statusCode: 500, message: "Something went wrong" });

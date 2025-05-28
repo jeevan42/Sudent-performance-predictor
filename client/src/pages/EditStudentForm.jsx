@@ -55,7 +55,7 @@ const EditStudentForm = () => {
       try {
         const response = await API.patch(`/students/update/${id}`, values);
         if (response?.data?.statusCode === 200) {
-          notifySuccess('Student updated successfully');
+          notifySuccess(response?.data?.message || 'Student updated successfully');
           navigate(`/students/${id}`);
         } else {
           notifyError(response?.data?.message);
