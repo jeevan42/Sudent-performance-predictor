@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import API from './../services/api';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { notifyError } from './../services/toastNotifications';
 import {
     Card,
@@ -16,9 +16,12 @@ import {
     Select,
     FormControl,
     InputLabel,
+    Stack,
+    Chip,
 } from '@mui/material';
 
 function Dashboard() {
+    const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true); // To manage loading state
     const [currentPage, setCurrentPage] = useState(1); // Current page
@@ -93,53 +96,111 @@ function Dashboard() {
                     <CircularProgress />
                 </div>
             ) : data.length > 0 ? (
+                // <Grid container spacing={4} mt={2}>
+                //     {data.map((student) => {
+                //         let { name = '', attendance = 0, studyHours = 0, previousMarks = 0, assignmentScore = 0, predictions = [] } = student;
+                //         return (
+                //             <Grid item xs={12} sm={6} md={4} key={student?._id}>
+                //                 <Card>
+                //                     <CardContent>
+                //                         <Typography variant="h5" gutterBottom>
+                //                             {name}
+                //                         </Typography>
+                //                         <Typography variant="body2" color="textSecondary">
+                //                             Attendance:  {attendance}
+                //                         </Typography>
+                //                         <Typography variant="body2" color="textSecondary">
+                //                             Study Hours:  {studyHours}
+                //                         </Typography>
+                //                         <Typography variant="body2" color="textSecondary">
+                //                             Previous Marks:  {previousMarks}
+                //                         </Typography>
+                //                         <Typography variant="body2" color="textSecondary">
+                //                             Assignment Score:  {assignmentScore}
+                //                         </Typography>
+                //                         <Typography variant="body2" color="textSecondary">
+                //                             Recent Prediction:  {predictions?.[0]?.predictedResult || "--"}
+                //                         </Typography>
+                //                     </CardContent>
+                //                     <CardActions>
+                //                         <Button size="small" color="primary" onClick={() => navigate(`/students/${student?._id}`)}>
+                //                             View Details
+                //                         </Button>
+                //                         <Button size="small" color="primary">
+                //                             Predict Result
+                //                         </Button>
+                //                     </CardActions>
+                //                 </Card>
+                //             </Grid>
+                //         )
+                //     })}
+                // </Grid>
                 <Grid container spacing={4} mt={2}>
                     {data.map((student) => {
-                        let { name = '', attendance = 0, studyHours = 0, previousMarks = 0, assignmentScore = 0, predictions = [] } = student;
+                        const {
+                            _id,
+                            name = '',
+                            attendance = 0,
+                            studyHours = 0,
+                            previousMarks = 0,
+                            assignmentScore = 0,
+                            predictions = [],
+                        } = student;
+
+                        const latestPrediction = predictions?.[0];
+
                         return (
-                            <Grid item xs={12} sm={6} md={4} key={student?._id}>
-                                <Card>
+                            <Grid item xs={12} sm={6} md={4} key={_id}>
+                                <Card elevation={4} sx={{ borderRadius: 3 }}>
                                     <CardContent>
-                                        <Typography variant="h5" gutterBottom>
+                                        <Typography variant="h6" fontWeight="bold" gutterBottom>
                                             {name}
                                         </Typography>
-                                        <Typography variant="body2" color="textSecondary">
-                                            Attendance:  {attendance}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary">
-                                            Study Hours:  {studyHours}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary">
-                                            Previous Marks:  {previousMarks}
-                                        </Typography>
-                                        <Typography variant="body2" color="textSecondary">
-                                            Assignment Score:  {assignmentScore}
-                                        </Typography>
-                                         <Typography variant="body2" color="textSecondary">
-                                            Recent Prediction:  {predictions?.[0]?.predictedResult || "--"}
+
+                                        <Stack spacing={1} mb={2}>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Attendance: <strong>{attendance}%</strong>
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Study Hours: <strong>{studyHours} hrs</strong>
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Previous Marks: <strong>{previousMarks}</strong>
+                                            </Typography>
+                                            <Typography variant="body2" color="text.secondary">
+                                                Assignment Score: <strong>{assignmentScore}</strong>
+                                            </Typography>
+                                        </Stack>
+
+                                        <Typography variant="body2" fontWeight="500" mt={1} component={'span'}>
+                                            Recent Prediction:{' '}
+                                            {latestPrediction?.predictedResult ? (
+                                                <Chip
+                                                    label={latestPrediction.predictedResult}
+                                                    color={latestPrediction.predictedResult === 'Pass' ? 'success' : 'error'}
+                                                    size="small"
+                                                    sx={{ fontWeight: 'bold' }}
+                                                />
+                                            ) : (
+                                                <Chip label="--" variant="outlined" size="small" />
+                                            )}
                                         </Typography>
                                     </CardContent>
-                                    <CardActions>
-                                        <Button size="small" color="primary" component={Link} to={`/students/${student?._id}`}>
+
+                                    <CardActions sx={{ justifyContent: 'space-between', px: 2 }}>
+                                        <Button size="small" onClick={() => navigate(`/students/${_id}`)}>
                                             View Details
                                         </Button>
-                                        {/* <Button
-                                            size="small"
-                                            color="secondary"
-                                            onClick={() => handleLikePost(post?._id, post?.isLiked)} // Toggle like
-                                        >
-                                            {post?.isLiked ? (
-                                                <i className="bi bi-heart-fill" style={{ color: 'red' }}></i> // Filled heart
-                                            ) : (
-                                                <i className="bi bi-heart" style={{ color: 'black' }}></i> // Unfilled heart
-                                            )}
-                                        </Button> */}
+                                        <Button size="small" variant="contained" color="primary">
+                                            Predict Result
+                                        </Button>
                                     </CardActions>
                                 </Card>
                             </Grid>
-                        )
+                        );
                     })}
                 </Grid>
+
             ) : (
                 <Typography variant="h6" align="center" color="textSecondary" mt={4}>
                     No data available.
