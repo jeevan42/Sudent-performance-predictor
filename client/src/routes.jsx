@@ -22,6 +22,7 @@ export default function AppRoutes() {
           <>
             {/* Protected Routes */}
             <Route path="/" element={<Dashboard />} />
+            <Route path="/students/:studentId" element={<Dashboard />} />
             {/* Add a fallback for any unmatched routes */}
             <Route path="*" element={<Navigate to="/" />} />
           </>
