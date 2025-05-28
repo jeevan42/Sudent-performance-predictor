@@ -9,7 +9,7 @@ export const predictStudentResult = async (req, res) => {
         });
 
         if (!student) {
-            return res.status(404).json({ message: "Student not found" });
+            return res.status(404).json({ statusCode: 404, message: "Student not found" });
         }
 
         const py = spawn("python", [
@@ -42,10 +42,17 @@ export const predictStudentResult = async (req, res) => {
             student.predictions.push(outputResponse);
             await student.save();
 
-            res.json(outputResponse);
+            res.status(200).json({
+                statusCode: 200,
+                message: `Prediction done successfully.`,
+                data: {
+                    studentName: student.name,
+                    prediction: outputResponse.predictedResult,
+                }
+            });
         });
 
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ statusCode: 500, message: error.message });
     }
 };

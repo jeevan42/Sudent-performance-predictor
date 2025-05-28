@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import API from './../services/api';
 import { useNavigate } from 'react-router-dom';
-import { notifyError } from './../services/toastNotifications';
+import { notifyError, notifySuccess } from './../services/toastNotifications';
 import {
     Card,
     CardContent,
@@ -27,6 +27,7 @@ function Dashboard() {
     const [currentPage, setCurrentPage] = useState(1); // Current page
     const [totalPosts, setTotalPosts] = useState(0); // Total number of posts
     const [postsPerPage, setPostsPerPage] = useState(10); // Number of posts per page
+    const [loadingPredictionIds, setLoadingPredictionIds] = useState([]);
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -35,7 +36,7 @@ function Dashboard() {
                 const offset = (currentPage - 1) * postsPerPage; // Correctly calculate offset
                 const response = await API.get(`/students`);
                 // const response = await API.get(`/students/all-posts?offset=${offset}&limit=${postsPerPage}`);
-                console.log(`response`, response)
+                // console.log(`response`, response)
                 if (response?.data?.statusCode === 200) {
                     setData(response?.data?.data || []); // Use empty array if data is undefined/null
                     setTotalPosts(response?.data?.total || 0); // Get total posts count
@@ -67,21 +68,24 @@ function Dashboard() {
         setCurrentPage(1); // Reset to first page when limit changes
     };
 
-    // Handle like/unlike post
-    const handleLikePost = async (postId, isLiked) => {
+    // Handle Predict Result
+    const handlePredictResult = async (studentId) => {
+        setLoadingPredictionIds((prev) => [...prev, studentId]);
+
         try {
-            // const response = await API.post(`/posts/like-post/${postId}`);
-            // if (response?.data?.code === 200) {
-            setPosts((prevPosts) =>
-                prevPosts.map((post) =>
-                    post?._id === postId ? { ...post, isLiked: !isLiked } : post
-                )
-            )
-            // } else {
-            //     notifyError(response?.data?.message || 'Failed to update your action on post');
-            // }
+            const response = await API.post(`/predict/${studentId}`);
+            console.log(`response`, response)
+            const { message, data } = response?.data || {};
+
+            if (response?.data?.statusCode === 200) {
+                notifySuccess(`${message} → ${data?.studentName}: ${data?.prediction}`);
+            } else {
+                notifyError(message || 'Failed to update your action on post');
+            }
         } catch (error) {
-            notifyError(error?.response?.data?.message || 'An error occurred while liking the post');
+            notifyError(error?.response?.data?.message || 'An error occurred while predicting the result');
+        } finally {
+            setLoadingPredictionIds((prev) => prev.filter((id) => id !== studentId));
         }
     };
 
@@ -191,8 +195,12 @@ function Dashboard() {
                                         <Button size="small" onClick={() => navigate(`/students/${_id}`)}>
                                             View Details
                                         </Button>
-                                        <Button size="small" variant="contained" color="primary">
-                                            Predict Result
+                                        <Button size="small" variant="contained" color="primary"
+                                            onClick={() => handlePredictResult(_id)}
+                                            disabled={loadingPredictionIds.includes(_id)}
+                                        >
+                                            {loadingPredictionIds.includes(_id) ? 'Predicting...' : 'Predict Result'}
+
                                         </Button>
                                     </CardActions>
                                 </Card>
