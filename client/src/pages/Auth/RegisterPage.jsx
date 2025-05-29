@@ -34,7 +34,7 @@ const Register = () => {
                     notifyError(response?.data?.message)
                 }
             } catch (err) {
-                notifyError(err?.response?.data?.message)
+                notifyError(err?.response?.data?.message || `Something went wrong`)
                 console.error('Registration failed', err);
             } finally {
                 setIsSubmitting(false);
