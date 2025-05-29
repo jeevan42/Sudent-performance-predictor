@@ -20,6 +20,7 @@ An end-to-end MERN + Machine Learning project where teachers can manage student 
 - React.js
 - Axios
 - Tailwind
+- Material UI
 - React Router DOM, Formik + Yup, Toastify
 
 ---
