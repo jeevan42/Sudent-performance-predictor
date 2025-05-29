@@ -45,38 +45,6 @@ export const updateStudentData = async (req, res) => {
     }
 };
 
-// export const getStudents = async (req, res) => {
-//     try {
-//         // const students = await Student.find({ teacher: req.teacher.id });
-//         const students = await Student.aggregate([
-//             {
-//                 $match: {
-//                     teacher: new mongoose.Types.ObjectId(req.teacher.id)
-//                 }
-//             },
-//             {
-//                 $addFields: {
-//                     predictions: {
-//                         $sortArray: {
-//                             input: "$predictions",
-//                             sortBy: { createdAt: -1 } // Descending order
-//                         }
-//                     }
-//                 }
-//             }
-//         ]);
-
-//         res.status(200).json({
-//             statusCode: 200,
-//             message: 'Students list fetched',
-//             data: students || []
-//         });
-//     } catch (error) {
-//         res.status(500).json({ statusCode: 500, message: error.message });
-//     }
-// };
-
-
 export const getStudents = async (req, res) => {
     try {
         const { page = 1, limit = 10, name = '' } = req.query;
