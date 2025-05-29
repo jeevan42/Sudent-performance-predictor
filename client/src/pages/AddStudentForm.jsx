@@ -5,9 +5,11 @@ import API from '../services/api';
 import { TextField, Button, Container, Typography } from '@mui/material';
 import { notifyError, notifySuccess } from '../services/toastNotifications';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const AddStudentForm = () => {
     const navigate = useNavigate();
+    const [submitting, setSubmitting] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -25,6 +27,7 @@ const AddStudentForm = () => {
             assignmentScore: Yup.number().min(0).max(10).required('Assignment score required'),
         }),
         onSubmit: async (values, { resetForm }) => {
+            setSubmitting(true);
             try {
                 const response = await API.post('/students/add', values);
                 if (response?.data?.statusCode === 201) {
@@ -36,6 +39,8 @@ const AddStudentForm = () => {
                 }
             } catch (err) {
                 notifyError(err?.response?.data?.message || 'Adding student failed');
+            } finally{
+                setSubmitting(false)
             }
         },
     });
@@ -114,8 +119,9 @@ const AddStudentForm = () => {
                     fullWidth
                     type="submit"
                     style={{ marginTop: '20px' }}
+                    disabled={submitting}
                 >
-                    Add Student
+                    {submitting ? `Adding Student...` : `Add Student`}
                 </Button>
             </form>
         </Container>

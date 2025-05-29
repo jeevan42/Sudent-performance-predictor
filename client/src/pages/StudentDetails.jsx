@@ -159,6 +159,9 @@ function StudentDetails() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {!student.predictions.length ?
+                <Typography variant="h6" sx={{ display: `flex`, justifyContent: 'center', marginTop: '10px' }} gutterBottom>No Prediction History</Typography>
+                : ''}
         </Container>
     );
 }
