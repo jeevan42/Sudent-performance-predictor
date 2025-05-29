@@ -33,7 +33,7 @@ const Login = () => {
           notifyError(response?.data?.message);
         }
       } catch (err) {
-        notifyError(err?.response?.data?.message);
+        notifyError(err?.response?.data?.message || `Something went wrong`);
         console.error('Login failed', err);
       } finally {
         setIsSubmitting(false); // Reset form to not submitting
