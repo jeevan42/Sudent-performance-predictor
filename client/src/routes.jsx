@@ -5,12 +5,15 @@ import Dashboard from "./pages/Dashboard.jsx";
 import StudentDetails from "./pages/StudentDetails.jsx";
 import EditStudentForm from "./pages/EditStudentForm.jsx";
 import AddStudentForm from "./pages/AddStudentForm.jsx";
+import Header from "./pages/Header.jsx";
 
 export default function AppRoutes() {
   const token = localStorage.getItem('token');
 
   return (
     <BrowserRouter>
+      {token && <Header />} {/* Show Header only if the user is logged in */}
+
       <Routes>
         {/* Public Routes */}
         {!token ? (

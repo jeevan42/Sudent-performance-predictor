@@ -27,6 +27,7 @@ const Login = () => {
           notifySuccess(response?.data?.message);
           localStorage.setItem('token', response?.data?.token);
           localStorage.setItem('userId', response?.data?.teacher?.id);
+          localStorage.setItem('name', response?.data?.teacher?.name);
           window.location.href = '/';
         } else {
           notifyError(response?.data?.message);

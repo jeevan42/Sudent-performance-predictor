@@ -28,6 +28,7 @@ const Register = () => {
                     notifySuccess(response?.data?.message)
                     localStorage.setItem('token', response?.data?.token);
                     localStorage.setItem('userId', response?.data?.teacher?.id);
+                    localStorage.setItem('name', response?.data?.teacher?.name);
                     window.location.href = '/';
                 } else {
                     notifyError(response?.data?.message)
@@ -95,7 +96,7 @@ const Register = () => {
                 </Button>
             </form>
             <div className='d-flex w-100 mt-2 justify-content-end'>
-               <span className='me-2'>Already have an account</span>  <Link to="/login">Log in</Link><span className='ms-2'>here.</span> 
+                <span className='me-2'>Already have an account</span>  <Link to="/login">Log in</Link><span className='ms-2'>here.</span>
             </div>
         </Container>
     );
