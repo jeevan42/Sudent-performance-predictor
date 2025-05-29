@@ -17,6 +17,8 @@ const EditStudentForm = () => {
     assignmentScore: '',
   });
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+
 
   useEffect(() => {
     const fetchStudent = async () => {
@@ -52,6 +54,7 @@ const EditStudentForm = () => {
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
+      setSubmitting(true);
       try {
         const response = await API.patch(`/students/update/${id}`, values);
         if (response?.data?.statusCode === 200) {
@@ -62,6 +65,8 @@ const EditStudentForm = () => {
         }
       } catch (err) {
         notifyError(err?.response?.data?.message || 'Update failed');
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -142,8 +147,9 @@ const EditStudentForm = () => {
           fullWidth
           type="submit"
           style={{ marginTop: '20px' }}
+          disabled={submitting}
         >
-          Update Student
+          {submitting ? `Updating Student...` : `Update Student`}
         </Button>
       </form>
     </Container>
